@@ -1,6 +1,6 @@
 all:	paper.pdf
 
-paper.pdf: paper.tex
+paper.pdf: paper.tex references.bib
 	pdflatex $^
 	bibtex paper >/dev/null || echo
 	pdflatex $^ 2>/dev/null >/dev/null
