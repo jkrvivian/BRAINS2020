@@ -48,7 +48,7 @@ email address or ORCID}
 \maketitle
 
 \begin{abstract}
-Transacting IoT data must be different in many ways from traditional approaches in order to build much-needed trust in data marketplaces—trust that will be key to their sustainability. Data generated internally to an organization is usually not enough to remain competitive, enhance customer experiences, or improve strategic decision-making. In this paper, we propose a novel approach to construct IoT-enabled data marketplaces via a decentralized and trustless architecture through the posting of trade records while including the transaction process on distributed ledgers. This approach can efficiently enhance the degree of transparency, as all interactions with smart contracts will be written on-chain. Storage via an end-to-end encrypted message channel allows transmitting and accessing trusted data streams over distributed ledgers regardless of the size or cost of the device, while simultaneously making a verifiable Auth-compliant request to the platform. Furthermore, the platform will complete matching, trading and refunding processes without human intervention which also protects the rights of data providers and consumers through a trading policy written on the smart contract, and finally apply evolutionary game theory to the machine economy.
+Transacting IoT data must be different in many ways from traditional approaches in order to build much-needed trust in data marketplaces—trust that will be key to their sustainability. Data generated internally to an organization is usually not enough to remain competitive, enhance customer experiences, or improve strategic decision-making. In this paper, we propose a novel approach to construct IoT-enabled data marketplaces via a decentralized and trustless architecture through the posting of trade records while including the transaction process on distributed ledgers. This approach can efficiently enhance the degree of transparency, as all interactions with smart contracts will be written on-chain. Storage via an end-to-end encrypted message channel allows transmitting and accessing trusted data streams over distributed ledgers regardless of the size or cost of the device, while simultaneously making a verifiable Auth-compliant request to the platform. Furthermore, the platform will complete matching, trading and refunding processes without human intervention which also protects the rights of data providers and consumers through a trading policy written on the smart contract.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -57,7 +57,7 @@ privacy computing, crowd sensing, data marketplace, decentralization
 
 \section{Introduction}
 The growth of data marketplaces is an inevitable result of the IoT (Internet of Things) revolution. As physical assets such as ships, factories, vehicles, farms and buildings become digital, their digital twins will gradually act as secure data exchanges.\cite{digitaltwin, AutonomousDriving} As data streams surge across silos and carry value across organizations, traditional value chains will transition into a web of value. This paradigm shift will be more complex to administers, forcing businesses to rethink their competitive play as part of these ecosystems. Data marketplaces will emerge as a means to exchange data, monetize data streams and provide the basis of new business models. We refer to this new wave of value creation, for the Internet of Everything, as the "Economy of Things." There are three main barriers to achieving data marketplace:
-\begin{enumerate}[leftmargin=*,labelsep=4.9mm]
+\begin{enumerate}
     \item Data owners do not have much control over their data and their data is locked in silos managed by products and services companies.
     \item Data owners only have access to their own data which has little value when it comes to knowledge discovery.
     \item Data owners do not know how to discover knowledge from raw data.
@@ -117,8 +117,6 @@ To address the inefficiency of the Blockchain, \textbf{IOTA}\cite{IOTAwhitepaper
 Based on Tangle and MAM, the IOTA Foundation launched autonomous and decentralized Industry Marketplace\cite{IOTAIdustryMarketplace} which is suitable for IoT streaming data that not only allows data providers to put data on Tangle without any trusted cloud services, but also allow providers and consumers to trade on Tangle with privacy protection and assurance of data integrity from the source with MAM. Nevertheless, the platform design is centralized, where new devices require manual approval to be visible in the marketplace. Also, interacting with Tangle is still the bottleneck for low-level devices especially in an unstable network or electrically noisy environment.
 
 A different framework design proposed by Gupta, S.Kanhere and Jurdak\cite{3tierDataMarket} could reduce the burden of low-level devices as mentioned. The infrastructure is a 3-tier decentralized data marketplace architectural design with Ethereum smart contracts which consist of providers, consumers and brokers. The broker is a trustless and highly resourced device that will facilitate the trading of data between the consumer and providers. However, the data integrity and authentication of each participant is still forthcoming.
-
-The sustainability of IoT economic system was discussed by Dusit Niyato et al.\cite{UtilityStruct}. They evaluated the utility structure of data trading and presented a game theory model.  Data marketplace organizers can determine their policies to ensure a sustainable system with the Nash Equilibrium found via game theory and its utility structure. However, refund and subscription economies were not mentioned in their work.
 
 Such work proposed different solutions to specific issues of data marketplaces. In this paper, we propose an overall design of decentralized data marketplace that handles data integrity and trading procedures such as buyout and subscriptions to future data on a distributed ledger.
 
@@ -228,12 +226,7 @@ Inter-Planetary File system(IPFS)\cite{IPFS} is a peer-to-peer network for stori
 
 
 \section{Trading Model}
-In the following, we describe the data trading process in detail where we use game theory to ensure the sustainability of our trading model. To participate a data marketplace, data providers and consumers have to first register. Then,  the data provider can launch its product on the marketplace. Once a product is launched, it is searchable and can be subsequently traded. The whole trading and refunding process is defined in smart contracts which are easily traceable and irreversible.
-
-The consumer will pay for the data, only when the data sold by the data provider sufficiently accurate, for which we called such data "decent data."
-Once the accuracy is lower than a certain threshold, which we call "unacceptable data," the consumers would then consider this data provider as a low quality data provider, and stop buying data from this data provider.
-
-Refunds are a major issue in our research. However, we do not need to take refund as a factor in our game theory model, since in our decentralized data marketplace we use a smart contract to store the subscription fee which will be paid to buy the future data. The subscription fee will be paid as new data is transmitted to consumers. In other words, the data provider does not need to perform any procedures to transfer subscription fees from his/her own account to consumers' accounts. For the same reason, data providers have no responsibility on refunding processing fees charged by the smart contract.
+In the following, we describe the data trading process in detail. To participate a data marketplace, data providers and consumers have to first register. Then,  the data provider can launch its product on the marketplace. Once a product is launched, it is searchable and can be subsequently traded. The whole trading and refunding process is defined in smart contracts which are easily traceable and irreversible.
 
 \subsection{Registration}
 At the beginning, the registrar creates a registration contract, which maintains all participants' information, including their DID documents and public keys. Anyone can query participants' public keys. Those who would like to sell or purchase data may register to become a data provider or consumer. The registrar has the authority to agree with applications. After that, their identities are available in the registration contract and the launching and trading processes can begin.
@@ -333,79 +326,6 @@ where $i$ is the number of data when refunding condition is met, $price$  is the
 To refund or withdraw subscription fees from the smart contract, the data provider, broker, and consumer send a transaction to execute the smart contract and are responsible for the transaction fee. We assume that only a half of the expected records are published to the MAM channel. When $F_{b}$ is 5\%, the data provider and broker can withdraw half of the total subscription fee from the smart contract and 5\% of the subscription fee belongs to the broker while the remaining belongs to the data provider. For consumers, they can receive half of the subscription fee refunded which should be deducted from the transaction fee.
 
 Considering the situation that one of the consumers requests a refund in the future, when the consumer is disappointed with the data quality, he/she may request a refund.
-
-
-\section{Game Theory Adoption}
-Game Theory is a methodology to discuss strategic interaction among game players. If we can ensure Nash Equilibrium of decentralized data marketplace exists at a certain acceptable range, then we can promise the sustainability of decentralized data marketplace. Fan Liang et al\cite{SurveyBigDataPricing} listed several different types of game theory models which are applied to data pricing. We employed repeated games to build our game theory model. Repeated games consist of several repetitions of the same base game which meets the scenario of data subscription.
-
-Fig.~\ref{fig:decision_tree} shows the decision tree to depict the repeated game we used. Each level in this decision tree represents each round of data transmission from data provider to consumers, and the consumers would pay subscription fee, $p_s$, for each person. The sum of all the subscription fee paid to the data provider is denoted as $P_s$.
-
-\begin{figure}[!t] 
-	\centering 
-	\includegraphics[width=2.5in]{decision_tree} 
-	\caption{Decision Tree}
-	\label{fig:decision_tree}
-\end{figure}
-
-For every $n$ round, the data provider would pay the maintenance fee, $C_{maintain}$, to as the incentives of maintaining or enhancing the sensors that the data provider owns. We call this a maintenance period. Moreover, the cost of maintenance will decrease as time passes, so we introduce a discounted factor $\beta$ to depict this phenomena.
-
-The following assumptions are made:
-\begin{enumerate}
-    \item  We assume consumers are rational. \label{rational_man}
-    \item  Each data provider is the sole provider of the product they produced. \label{monopoly}
-    \item  Subscription fees only depends on data quality. \label{fee_vs_quality}
-    \item  At least 51\% of consumers are in the same group which has complete information exchange. \label{51_in_group}
-    \item  One of the consumers who has complete information exchange with other 51\% buyers has the ability to examine data quality. \label{1_in_51}
-\end{enumerate}
-
-According to \textbf{assumption(\eqref{rational_man})}, we learn that few consumers would take malicious actions in this system, since all the consumers are rational. For most of the rational consumer, they can't obviously benefit from the collapse of the Data Marketplace.
-
-\textbf{Assumption(\eqref{monopoly})} implies there is no other data providers providing the same product in the data marketplace. In this way, we can consider each provider's behavior independently. That means this decision tree represents the behavior of only one data provider. Price war between data providers is not under consideration here.
-
-From \textbf{assumption(\eqref{51_in_group})}, we derive that if one of any consumer in that group of complete information exchange consumers launches voting for stopping buying data (in other words, the consumer announces the data quality is not acceptable), they would succeed in rejecting the processing subscription.
-
-\textbf{Assumption(\eqref{1_in_51})} implies if unacceptably low quality data are delivered to consumers, the examiner will be aware of the unacceptable data quality and spread this information out.
-
-
-Based on the description above, the discounted sum of payoff for our repeated game is
-\begin{equation} 
-\label{payoff}
-    \sum_{i=0}^{m - 1}{\beta^{in}\cdot [(\sum_{j=0}^{n - 1} \beta^j \cdot P_s) - C_{maintain}]}
-\end{equation}
-
-Al-Fagih et al. presented\cite{DataPrice} the sum of the subscription fee, $P_s$, is a sigmoid function of data quality, $P_r$, and based on rule of thumb, $C_{maintain}$ is approximately an exponential function of $P_r$. We can substitute $P_s$ and $C_{maintain}$ with $P_r$ into \eqref{payoff}. With the resulting equation, we can find out the Nash Equilibrium of repeated game.
-
-\subsection{Numerical Example}
-To evaluate the behavior of the game theory model we just presented, first, we would express the function of $P_s$ and $C_{maintain}$ as functions of $P_r$ respectively. Therefore, the sum of subscription fee of all subscriber can be expressed as
-
-\begin{equation} \label{sub_fee}
-    P_s = R \frac{e^{a (P_r - b)}}{1 + e^{a (P_r - b)}}
-\end{equation}
-
-where $a$ and $b$ are tuning factors, and $R$ is the maximum possible data value.
-
-And we would express the cost of maintenance as
-
-\begin{equation} \label{C_mtn}
-    C_{maintain} = ce^{P_r - d}
-\end{equation}
-Where $c$ and $d$ are tuning factors.
-
-Substitute \eqref{sub_fee} and \eqref{C_mtn} into \eqref{payoff}. We can derive
-\begin{equation} \label{payoff_Pr}
-    \sum_{i=0}^{m - 1}{\beta^{in}\cdot [(\sum_{j=0}^{n - 1} \beta^j \cdot R \frac{e^{a (P_r - b)}}{1 + e^{a (P_r - b)}}) - ce^{P_r - d}]}
-\end{equation}
-
-\begin{figure}[!t] 
-	\centering 
-	\includegraphics[width=2.5in]{payoff} 
-	\caption{Payoff Function}
-    \label{fig:payoff} 
-\end{figure}
-
-With proper tuning factor, we can derive payoff function which is similar to Fig.~\ref{fig:payoff}. The red dot in this figure indicates the data quality that data provider would most likely provide, since the data provider can achieve maximum payoff at that point. Namely, the red dot is the Nash Equilibrium of this game theory model. Both scales of x-axis and y-axis have been normalized. X-axis is normalized into a range between 0 to 100 which can reflect customer satisfaction of data buyers, y-axis is normalized into a range between -1 and 1.
-
-Fig.~\ref{fig:payoff} illustrates the market mechanism of the subscription trading policy we used under the decentralized data marketplace. First, data providers have weak motivation to operate their sensor in low accuracy, since the incentive of low quality data is much less than moderate quality data. Second, the great deficit at high accuracy is mostly derived by the rapid increasing of maintenance cost. Thus, if the maintenance fee to achieve decent data quality is under a fair price range, then data provider will automatically provide data with high enough data quality under our assumptions.
 
 \section{Evaluations}
 It is worth making a claim that all participants in data marketplace do not need to hold an IOTA full node which maintains the transaction history and exchanges information of the Tangle. Each role is only required to run client libraries and communicate with IOTA full nodes to interact with the Tangle. Therefore, in the following evaluations, all devices run with client library only.
@@ -587,8 +507,7 @@ Table \ref{tab:gas} shows the gas usage for each function. Creating a smart cont
 \section{Conclusions}
 By combining the established standards and openly-developed specifications, this paper proposed an autonomous data marketplace design to serve as a vendor and industry-neutral platform, automating the trading of digital assets and services. It was built with blockchain network, immutable audit trails, and contracts with an integrated decentralized identity system, to ensure the authenticity of all participants and enable secure communication and flexible trading mechanisms.
 
-The data auction process is a data trading mechanism and an economically-driven scheme that establishes corresponding prices of data products through bidding process between consumers and providers. While there has been many auction models\cite{BigPicDataMarket} in several areas, there has been minimal research on third-party auction platforms. Our proposed decentralized data marketplace protects the privacy of participants which reveals the minimum information for validation and reduces the suspicion of trust to centralized parties or auctioneers. However, the auction process between multiple participants and analysis of potential threats are still critical issues that need to be resolved. For the game theory model presented in this work, we assume each data provider's behavior is independent. However, normally there would be multiple data providers providing similar products (substitutions). Only one provider is taken into considerations at present.
-
+The data auction process is a data trading mechanism and an economically-driven scheme that establishes corresponding prices of data products through bidding process between consumers and providers. While there has been many auction models\cite{BigPicDataMarket} in several areas, there has been minimal research on third-party auction platforms. Our proposed decentralized data marketplace protects the privacy of participants which reveals the minimum information for validation and reduces the suspicion of trust to centralized parties or auctioneers. However, the auction process between multiple participants and analysis of potential threats are still critical issues that need to be resolved.
 
 %\section*{Acknowledgment}
 
