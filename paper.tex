@@ -127,7 +127,7 @@ Brokers represent data providers and consumers to perform computing tasks as bro
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=2.5in]{system_design}
+    \includegraphics[width=3.5in]{system_design}
     \caption{The system design of a decentralized architecture which consists of data providers, consumers and brokers.}
     \label{fig:system_design}
 \end{figure}
@@ -168,7 +168,7 @@ While the operations of MAM are time-consuming, brokers are responsible not only
 \subsubsection{TangleID}
 The TangleID\cite{TangleID} is a self-sovereign identity system based on IOTA that does not require any third-party authority to verify an identity and its digital footprint. With TangleID, the digital footprint is converted into digital assets under the principle of Decentralized Identifiers (DIDs)\cite{DID} defined by W3C. Posting DID documents on MAM channel makes TangleID a GDPR-compliant system\cite{GDPR}. Every participant in the data marketplace registers on TangleID, hence one can easily verify data providers' identity to ensure the data persistency from data sources.
 
-A public/private key pair and an IOTA seed is generated in TangleID. The public MAM channel is created with the seed and its MAM channel ID becomes part of the unique user ID, which at the same time serves as DID with the purpose of publishing the public key of the entity. Private key along with the IOTA seed is stored in the local database of the entity. The public/private key pair can be used in secure message sharing within users and digital signature.
+A public/private key pair and an IOTA seed are generated in TangleID. The public MAM channel is created with the seed and its MAM channel ID becomes part of the unique user ID, which at the same time serves as DID with the purpose of publishing the public key of the entity. Private key along with the IOTA seed is stored in the local database of the entity. The public/private key pair can be used in secure message sharing within users and digital signature.
 
 The digital identities are also used to establish trust between the communication partners. This is done on two levels to prove that the communication partner owns the DID and the partner can, optionally, proof that it is a trusted participant. This authentication process happens during the first messages of interaction. In order for one partner to listen to another, it authenticates the messages. The DID ownership authentication is done by proving a digitally signed copy of the DID document.
 
