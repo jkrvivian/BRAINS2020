@@ -238,23 +238,23 @@ In the proposed architecture, the "access" to specific data stream is traded ins
 }
 \lstset{style=solidity}
 
-\begin{lstlisting}[caption={Update encrypt key}, label={lst:key_exchange}, frame=single]
-    function addEncryptKey(
-        address _subscriber,
-        string memory _encryptKey
-    ) public {
-        require(
-            msg.sender == provider,
-            "Only provider can add blindedKey."
-        );
-        require(
-            subscriber2Purchase[_subscriber].isKeyAdded == false,
-            "One encryptKey has been added."
-        );
-        subscriber2Purchase[_subscriber].encryptKey = _encryptKey;
-        subscriber2Purchase[_subscriber].isKeyAdded = true;
-        emit newEncryptKey(_subscriber, _encryptKey);
-    }
+\begin{lstlisting}[caption={Update encryption key}, label={lst:key_exchange}, frame=single]
+function addEncryptKey(
+  address _subscriber,
+  string memory _encryptKey
+) public {
+  require(
+      msg.sender == provider,
+      "Only provider can add blindedKey."
+  );
+  require(
+      subscriber2Purchase[_subscriber].isKeyAdded == false,
+      "One encryptKey has been added."
+  );
+  subscriber2Purchase[_subscriber].encryptKey = _encryptKey;
+  subscriber2Purchase[_subscriber].isKeyAdded = true;
+  emit newEncryptKey(_subscriber, _encryptKey);
+}
 \end{lstlisting}
 
 The trading process is shown in Fig.~\ref{fig:key_exchange}. The data provider can obtain public keys of each subscriber from the DID document. For each subscriber, the data provider encrypts the session key and broker's signature with the subscriber's public key and sends the ciphertext $Encrypt(k + Sign(k))$ to the product contract by calling $addEncryptKey()$ (Listing \ref{lst:key_exchange}). Subscribers listen to the $newEncryptKey$ event which is triggered when the ciphertext is updated, and decrypt the ciphertext to obtain the session key $k$ and signature $Sign(k)$.
