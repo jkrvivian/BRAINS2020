@@ -111,14 +111,12 @@ In \cite{userCentricData}, the publisher runs a node in blockchain that preserve
 Decentralized storage systems allow users to store files in a distributed network that is maintained by individual nodes around the world instead of a central service provider. Nevertheless, DLTs are often used as the backbone of these systems as data storage and also an incentive layer to encourage people get involved in the network. Filecoin \cite{FileCoin} in Inter-Planetary File system(IPFS)\cite{IPFS} is an incentive layer to incent nodes to provide storage. IPFS is a content-based addressing storage model in a peer-to-peer network, which users can obtain the data with the unique hash value through the network. However, no cryptographic system is applied for user-uploaded files. Sia\cite{Sia} splits the uploaded file into multiple data segments encrypted with the owner's private key, then cipher text is sent to the Sia nodes that rent the storage in Siacoin through smart contracts. Files are duplicated in multiple nodes to prevent data loss.
  
 \section{System Architecture}
-Our proposed data marketplace framework is a 3-tier decentralized architecture with a registrar who is responsible for marketplace registration in order to post participants' information on distributed ledgers for validation; data providers who publish data; data consumers who search for interested products and issue a new trade; and brokers who interact between data providers and consumers, including data publishing, product metadata generation and trading process.
+Our proposed data marketplace framework is a 3-tier decentralized architecture with data providers who publish data; data consumers who search for interested products and issue a new trade; and brokers who interact between data providers and consumers, including data publishing, product metadata generation and trading process.
 
 \subsection{Participants}
-There are four major roles in the decentralized data marketplace (Fig.~\ref{fig:system_design}).
+There are three major roles in the decentralized data marketplace (Fig.~\ref{fig:system_design}).
 
 \begin{itemize}
-\item \textbf{Registrar: }
-The registrar is responsible for creating a Registration Contract, which maintains a lookup table of participants, and has the authority to control the participant lists of the decentralized data marketplace.
 \item \textbf{Data Provider: }
 Data providers, who generate and preserve streaming data, are willing to sell streaming data to consumers and receive subscription fees from consumers, which can be used to improve the quantity and accuracy of their device or service.
 \item \textbf{Consumer: }
@@ -129,8 +127,8 @@ Brokers represent data providers and consumers to perform computing tasks as bro
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=2.5in]{system_design}
-    \caption{The system design of a decentralized architecture which consists of a registrar, data providers, consumers and brokers.}
+    \includegraphics[width=3.5in]{system_design}
+    \caption{The system design of a decentralized architecture which consists of data providers, consumers and brokers.}
     \label{fig:system_design}
 \end{figure}
 
@@ -166,6 +164,15 @@ While the operations of MAM are time-consuming, brokers are responsible not only
     \caption{The process of launching a product.}
     \label{fig:launching_product}
 \end{figure}
+
+\subsubsection{TangleID}
+The TangleID\cite{TangleID} is a self-sovereign identity system based on IOTA that does not require any third-party authority to verify an identity and its digital footprint. With TangleID, the digital footprint is converted into digital assets under the principle of Decentralized Identifiers (DIDs)\cite{DID} defined by W3C. Posting DID documents on MAM channel makes TangleID a GDPR-compliant system\cite{GDPR}. Every participant in the data marketplace registers on TangleID, hence one can easily verify data providers' identity to ensure the data persistency from data sources.
+
+A public/private key pair and an IOTA seed are generated in TangleID. The public MAM channel is created with the seed and its MAM channel ID becomes part of the unique user ID, which at the same time serves as DID with the purpose of publishing the public key of the entity. Private key along with the IOTA seed is stored in the local database of the entity. The public/private key pair can be used in secure message sharing within users and digital signature.
+
+The digital identities are also used to establish trust between the communication partners. This is done on two levels to prove that the communication partner owns the DID and the partner can, optionally, proof that it is a trusted participant. This authentication process happens during the first messages of interaction. In order for one partner to listen to another, it authenticates the messages. The DID ownership authentication is done by proving a digitally signed copy of the DID document.
+
+The authentication of trust between the two parties is based on a Verifiable Credential, given out by a trusted issuer for the receiving party. If the receiving party does not trust the issuer, the credential is deemed worthless. If the party is recognized, the credential is verified and the messages will be labelled as trusted. In order to acquire this credential, the party needs to contact the issuer and ask for the credential. The issuer will need to know the DID of the party. If they decide to give out the credential, the issuer will sign the credential and send it encrypted over the blockchain to the requesting party's communication address. This is listed as a Service Endpoint (DID standard) in the DID Document of the requesting party.
 
 \subsubsection{Ethereum Smart Contract}
 The smart contract is a protocol for formulating agreement on a blockchain that provides verification and execution of the contract. The code in the smart contract can interact with other contracts, make decisions, store data and transfer cryptocurrency. All conditions and states established in the contract are transparent and enforceable. The appearance of smart contracts makes trading more flexible, and achieves more complex trading patterns in reality.
@@ -203,10 +210,10 @@ $S$ is the signer's signature of $C$. In RSA system, $ed$ is equal to 1. To remo
 The user gets $m^d$ which is the signer's signature of the message $m$. At the same time, the signer does not know $m$ and the session key is protected. 
 
 \section{Trading Model}
-In the following, we describe the data trading process in detail. To participate a data marketplace, data providers and consumers have to first register. Then,  the data provider can launch its product on the marketplace. Once a product is launched, it is searchable and can be subsequently traded. The whole trading and refunding process is defined in smart contracts which are easily traceable and irreversible.
+In the following, we describe the data trading process in detail. To participate a data marketplace, data providers and consumers have to first register on TangleID. Then,  the data provider can launch its product on the marketplace. Once a product is launched, it is searchable and can be subsequently traded. The whole trading and refunding process is defined in smart contracts which are easily traceable and irreversible.
 
-\subsection{Registration}
-At the beginning, the registrar creates a registration contract, which maintains all participants' information, including their DID documents and public keys. Anyone can query participants' public keys. Those who would like to sell or purchase data may register to become a data provider or consumer. The registrar has the authority to agree with applications. After that, their identities are available in the registration contract and the launching and trading processes can begin.
+\subsection{Set up}
+At the beginning, all participant need to register on TangleID in order to get a DID document and public/private key pairs. The DID document is shared within the following operations to perform authentication, key exchangement and secure communication. 
 
 \subsection{Trading}
 \label{section:trading}
@@ -248,7 +255,7 @@ Next, session key $k$ should be exchanged between the data provider and consumer
     }
 \end{lstlisting}
 
-The trading process is shown in Fig.~\ref{fig:key_exchange}. The data provider can obtain public keys of each consumer from the registration contract. For each consumer, the data provider encrypts the session key and broker's signature with the consumer's public key and sends the ciphertext $Encrypt(k + Sign(k))$ to the product contract by calling $addEncryptKey()$ (Listing \ref{lst:key_exchange}). Consumers listen to the $newEncryptKey$ event which is triggered when the ciphertext is updated, and decrypt the ciphertext to obtain the session key $k$ and signature $Sign(k)$.
+The trading process is shown in Fig.~\ref{fig:key_exchange}. The data provider can obtain public keys of each consumer from the DID document. For each consumer, the data provider encrypts the session key and broker's signature with the consumer's public key and sends the ciphertext $Encrypt(k + Sign(k))$ to the product contract by calling $addEncryptKey()$ (Listing \ref{lst:key_exchange}). Consumers listen to the $newEncryptKey$ event which is triggered when the ciphertext is updated, and decrypt the ciphertext to obtain the session key $k$ and signature $Sign(k)$.
 
 \begin{figure}[!t]
     \centering
@@ -257,7 +264,7 @@ The trading process is shown in Fig.~\ref{fig:key_exchange}. The data provider c
     \label{fig:key_exchange}
 \end{figure}
 
-Consumers can obtain the broker's public key on the registration contract as well, so they can verify that the signature is valid and the session key is the only one that is certified by the broker. Afterward, encrypted data is published to the MAM channel, and consumers can obtain and decrypt it with the session key.
+Consumers can obtain the broker's public key on the DID document as well, so they can verify that the signature is valid and the session key is the only one that is certified by the broker. Afterward, encrypted data is published to the MAM channel, and consumers can obtain and decrypt it with the session key.
 
 \subsection{Refunding}
 
