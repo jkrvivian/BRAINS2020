@@ -303,7 +303,7 @@ Considering the situation that one of the subscribers requests a refund in the f
 It is worth making a claim that all participants in data marketplace do not need to hold an IOTA full node which maintains the transaction history and exchanges information of the Tangle. Each role is only required to run client libraries and communicate with IOTA full nodes to interact with the Tangle. Therefore, in the following evaluations, all devices run with client library only.
 
 \subsection{MAM Performance Evaluation}
-MAM is a secure and validatable data storage of the proposed architecture. And publishing data to MAM is the primary key to resolve all the difficulties discussed in previous sections. The interactions between data providers and MAM can be frequent. Data providers can either upload data in a short time interval or maintain multiple MAM channels or endpoints at the same time, hence the operation of MAM is one of the bottleneck in data marketplace.
+MAM is a secure and validatable data storage of the proposed architecture. And publishing data to MAM is the primary key to resolve all the difficulties discussed in previous sections. The interactions between data providers and MAM can be frequent. Data providers can either upload data in a short time interval or maintain multiple MAM channels or endpoints at the same time, hence the operation of MAM is one of the potential bottleneck in data marketplace.
 
 In this section, time measurement is evaluated in two MAM operations: channel/endpoint creation and data attachment to endpoints. To perform the evaluation assessment, a personal computer (PC, 3.2GHz 64-bit 6-core i7-8700 with 16GB DDR4 RAM) and a Raspberry Pi 3 Model B (1.2 GHz 64-bit quad-core ARM Cortex-A53 with 1GB LPDDR2 RAM) have been used to run MAM. 
 
@@ -363,10 +363,10 @@ The results of Table \ref{tab:channel_create} and Table \ref{tab:endpoint_create
 Publishing a message to MAM is attaching a zero-value transaction to the Tangle which requires two processes:
 \begin{itemize}
 	\item	Tips selection: In the IOTA protocol, a new-coming transaction needs to pick up 2 existed transactions called tips to reference and verify. The tips are provided by IOTA full nodes.
-	\item	Proof-of-Work (PoW): An algorithm which prevents Denial of Service and spam attacks on a network. a computationally hard puzzle to solve, but easy to verify. IOTA uses a Hashcash\cite{Hashcash} based puzzle.
+	\item	Proof-of-Work (PoW): An algorithm which prevents Denial of Service and spam attacks on a network. A computationally hard puzzle to solve, but easy to verify. IOTA uses a Hashcash\cite{Hashcash} based puzzle.
 \end{itemize}
 
-Tips selection requires a stable network connection to wait the response from IOTA full nodes, and PoW requires enough computation resources to perform. Fig.~\ref{fig:mam_send} shows PDF of publishing one message to MAM endpoint for 100 times. The average time for PC to send a message is 48.1069 seconds, and Raspberry Pi 3 takes 743.8586 seconds.
+Tips selection requires a stable network connection to wait the response from IOTA full nodes, and PoW requires enough computation resources to perform. Fig.~\ref{fig:mam_send} shows probability distribution function of publishing a message to MAM endpoint. The time of Raspberry Pi 3 distributed widely, since the randomness of PoW has huge impact while all the tests on PC remain in a possible range.
 
 \begin{figure}[!t]
     \centering
@@ -375,13 +375,13 @@ Tips selection requires a stable network connection to wait the response from IO
     \label{fig:mam_send}
 \end{figure}
 
-MAM operations take a lot of time for both devices, but Raspberry Pi 3 spends even more time than PC. The simulation results above indicate that MAM is difficult for low-level sensor devices to run, which these devices are the majority hardware as data providers in the data marketplace. Furthermore, sensors with the low computing power and weak internet connection are not able to have enough resources to handle data collection, data transmission on MAM and trading process with subscribers simultaneously. 
+The simulation results above indicate that MAM is difficult for low-level sensor devices to run, whereas these kind of devices are the majority hardware in the IoT scenarios. Furthermore, sensors with the low computing power and unstable internet connection are not able to have enough resources to handle data collection, data transmission on MAM and even trading process with subscribers simultaneously. 
 
-Therefore, transferring MAM operations to brokers while ensuring the profit and privacy of providers through blind signatures can effectively solve performance problems and lower the threshold for participation in the data marketplace. Brokers can be PCs or powerful machines that runs Ethereum client and Tangle-accelerator\cite{TA}. Where Ethereum client is used to interact with Ethereum and Tangle-accelerator is a caching proxy server for IOTA, which can serve thousands of IOTA requests at once without accessing remote IOTA full nodes frequently and provide PoW acceleration. Fig.~ \ref{fig:ta_struct} shows the structure of Tangle-accelerator. However, MAM operations still cost a considerable time, improving the performance of MAM is an essential issue that needs to be done for the next step.  
+Therefore, transferring MAM operations to brokers while ensuring the profit and privacy of providers through blind signatures can effectively solve performance problems and lower the threshold to participate in such framework. Brokers can be PCs or powerful machines that runs Ethereum client and Tangle-accelerator\cite{TA}. Where Ethereum client is used to interact with Ethereum and Tangle-accelerator is a caching proxy server for IOTA, which can serve thousands of IOTA requests at once without accessing remote IOTA full nodes frequently and provide PoW acceleration. Fig.~ \ref{fig:ta_struct} shows the structure of Tangle-accelerator. However, MAM operations still cost a considerable time that improving the performance of MAM is an essential issue that needs to be done for the next step.  
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=2.5in]{ta_structure}
+    \includegraphics[width=3in]{ta_structure}
     \caption{The structure of Tangle-accelerator.}
     \label{fig:ta_struct}
 \end{figure}
