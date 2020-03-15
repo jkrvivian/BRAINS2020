@@ -212,7 +212,7 @@ $S$ is the signer's signature of $C$. In RSA system, $ed$ is equal to 1. To remo
 The user gets $m^d$ which is the signer's signature of the message $m$. At the same time, the signer does not know $m$ and the session key is protected. 
 
 \section{Trading Model}
-In the following, we describe the data trading process in detail. To participate a data marketplace, data providers and consumers have to first register on TangleID. Then,  the data provider can launch its product on the marketplace. Once a product is launched, it is searchable and can be subsequently traded. The whole trading and refunding process is defined in smart contracts which are easily traceable and irreversible.
+In the following, we describe the data trading process in detail. To participate a data marketplace, data providers and consumers have to first register. Then,  the data provider can launch its product on the marketplace. Once a product is launched, it is searchable on IPFS where brokers upload the information of the product and can be subsequently traded. The whole trading and refunding process is defined in smart contracts which are easily traceable and irreversible.
 
 \subsection{Set up}
 At the beginning, all participant need to register on TangleID in order to get a DID document and public/private key pairs. The DID document is shared within the following operations to perform authentication, key exchangement and secure communication. 
@@ -220,7 +220,7 @@ At the beginning, all participant need to register on TangleID in order to get a
 \subsection{Trading}
 \label{section:trading}
 
-The entire trading process is as shown in Fig.~ \ref{fig:trading_product}. Once a consumer wants to subscribe certain streaming data that is generated, he/she has to pay subscription fee to the Product Contract and will be automatically added on the list by the smart contract.
+The entire trading process is as shown in Fig.~\ref{fig:trading_product}. Once a consumer wants to subscribe certain streaming data that is generated, he/she has to pay subscription fee to the Product Contract and will be automatically added to the subscriber list by the smart contract.
 
 \begin{figure}[!t]
     \centering
@@ -229,7 +229,7 @@ The entire trading process is as shown in Fig.~ \ref{fig:trading_product}. Once 
     \label{fig:trading_product}
 \end{figure}
 
-Next, session key $k$ should be exchanged between the data provider and consumers. To exchange data, Azaria et al\cite{Medrec} seek an off-chain solution which is based on an end-to-end communication to ensure the efficiency and low costs. However, it is hard to avoid that the data source is unavailable or the sender sends incorrect data intentionally. Instead of using off-chain solution, we use smart contract to transfer the session key\cite{3tierDataMarket} that not only ensures the consistency of the session key, the availability of the source and the traceability of the record, but also prevents malicious participants to cheat others.
+In the proposed architecture, the "access" to specific data stream is traded instead of giving out the raw data copies. Subscribers can retreive data on MAM at any time without equiping extra storage to preserve data, and one can also query for arbitrary section of data rather downloading them all. Thus, the most important part of trading process is to give the session key $k$, the encryption key of data stream, to the subscribers. In order to exchange data, Azaria et al\cite{Medrec} seek an off-chain solution which is based on an end-to-end communication to ensure the efficiency and low costs. However, it is hard to avoid that the data source is unavailable or the sender sends incorrect data intentionally. Instead of the off-chain solution, we use smart contract to transfer the session key\cite{3tierDataMarket} that not only ensures the consistency of the session key, the availability of the source and the traceability of the record, but also prevents malicious participants to cheat others. With the help of brokers and smart contracts, both providers and subscribers do not need to be online at the same time to procceed the trading process.
 
 \lstdefinestyle{solidity}{
 	captionpos=b,
@@ -261,12 +261,12 @@ The trading process is shown in Fig.~\ref{fig:key_exchange}. The data provider c
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=2.5in]{key_exchange}
+    \includegraphics[width=3.5in]{key_exchange}
     \caption{Session key exchange process between the data provider and consumer.}
     \label{fig:key_exchange}
 \end{figure}
 
-Consumers can obtain the broker's public key on the DID document as well, so they can verify that the signature is valid and the session key is the only one that is certified by the broker. Afterward, encrypted data is published to the MAM channel, and consumers can obtain and decrypt it with the session key.
+Consumers can obtain the broker's public key on the DID document as well, so they can verify that the validation of signature and the session key is the only one certified by the broker. Afterward, with the MAM channel ID and session key $k$, subscribers can obtain the data.
 
 \subsection{Refunding}
 
